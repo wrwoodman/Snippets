@@ -1,0 +1,20 @@
+Logging WCF Messages
+
+You want to log the contents of messages that go through your WCF service.
+Start here.  https://stackoverflow.com/questions/1319043/how-to-get-message-content-from-system-servicemodel-channels-message/10759660#10759660
+
+The file ServiceMessageInspector.cs implements the code found at StackExchange.
+The file ServiceMessageEndpointBehavior.cs adds the behavior to the stream.
+In the startup.cs file where the service is set up in the service container, do this.
+
+            services.AddScoped<IConnectedServiceClient>(provider =>
+            {
+                var messageFormat = Configuration[Constants.MessageFormat];
+                var uniqueIdExtractor = provider.GetService<IUniqueIdExtractor>();
+                var client = new ConnectedServiceClient();
+                client.Endpoint.Address = new EndpointAddress(Configuration["ConnectedServiceConfig:Endpoint"]);
+                client.Endpoint.EndpointBehaviors.Add(new ServiceMessageEndpointBehavior(uniqueIdExtractor, messageFormat));
+                return client;
+            });
+
+This will write the entire message out to a target.  This may contain PII data so don't do that in a  production environment.
