@@ -1,13 +1,13 @@
-﻿using Argo.ECD.Common.Contracts.Logging;
-using Argo.ECD.Common.Inspectors;
-using PostSharp.Patterns.Diagnostics;
+﻿using Common.Contracts.Logging;
+using Common.Inspectors;
+using PostSharp.Patterns.Diagnostics; // <-- Requires license
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace Argo.ECD.Common.Behavior
+namespace Common.Behavior
 {
-    [Log(AttributeExclude = true)]
+    [Log(AttributeExclude = true)] // <-- This is from PostSharp
     public class ServiceMessageEndpointBehavior : IEndpointBehavior
     {
         private readonly IUniqueIdExtractor _uniqueIdExtractor;

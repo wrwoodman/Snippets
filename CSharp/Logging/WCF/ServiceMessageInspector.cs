@@ -7,20 +7,20 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 using System.Text;
 using System.Xml;
-using Argo.ECD.Common.Contracts.Logging;
-using Argo.ECD.Common.Logging;
-using Argo.ECD.Common.Util;
-using NLog;
-using PostSharp.Patterns.Diagnostics;
+using Common.Contracts.Logging;
+using Common.Logging;
+using Common.Util;
+using NLog; 
+using PostSharp.Patterns.Diagnostics; // <-- Requires license
 using LogLevel = NLog.LogLevel;
 
-namespace Argo.ECD.Common.Inspectors
+namespace Common.Inspectors
 {
-    [Log(AttributeExclude = true)]
+    [Log(AttributeExclude = true)] // <-- This comes from PostSharp
     public class ServiceMessageInspector : IClientMessageInspector
     {
         private readonly IUniqueIdExtractor _uniqueIdExtractor;
-        private readonly ILogger _logger = LogManager.GetLogger(Constants.RequestResponseName);
+        private readonly ILogger _logger = LogManager.GetLogger(Constants.RequestResponseName); // This is a named logger that is used by NLog.
         private readonly string _messageFormat = "Single";
         private readonly List<string> _values = new List<string> { "Single", "Multiple" };
 
